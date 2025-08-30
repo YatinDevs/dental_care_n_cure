@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronDown,
   Calendar,
@@ -23,6 +24,8 @@ const LMSLandingPage = () => {
   const [activePhase, setActivePhase] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -199,8 +202,11 @@ const LMSLandingPage = () => {
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center">
-                  Apply Now <ArrowRight size={20} className="ml-2" />
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center"
+                >
+                  Enroll Now <ArrowRight size={20} className="ml-2" />
                 </button>
                 <button
                   onClick={() => scrollToSection("curriculum")}

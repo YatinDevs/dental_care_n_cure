@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronDown,
   Calendar,
@@ -19,11 +20,13 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import Navbar from "../components/Navbar";
+import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 
 const Layout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +46,103 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
+      <ScrollToTop />
+      {/* Header/Navigation */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "bg-white shadow-md" : "bg-transparent"
+        }`}
+      >
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <a href="/" className="text-2xl font-bold text-blue-600">
+                RICH System Solutions
+              </a>
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <a
+                href="/"
+                className="text-slate-700 hover:text-blue-600 font-medium"
+              >
+                Home
+              </a>
+              <a
+                href="/about"
+                className="text-slate-700 hover:text-blue-600 font-medium"
+              >
+                About
+              </a>
+              <a
+                href="/contact"
+                className="text-slate-700 hover:text-blue-600 font-medium"
+              >
+                Contact
+              </a>
+              <button
+                onClick={() => navigate("/contact")}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              >
+                Enroll Now
+              </button>
+            </nav>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden text-slate-700"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-white shadow-lg"
+            >
+              <div className="flex flex-col p-4 space-y-4">
+                <a
+                  href="/"
+                  className="text-slate-700 py-2 text-left font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Home
+                </a>
+                <a
+                  href="/about"
+                  className="text-slate-700 py-2 text-left font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a
+                  href="/contact"
+                  className="text-slate-700 py-2 text-left font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contact
+                </a>
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium"
+                >
+                  Apply Now
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Main Content */}
       <main className="pt-16">
         <Outlet />
       </main>
@@ -143,17 +242,17 @@ const Layout = () => {
               <h3 className="text-lg font-semibold mb-4">Services</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-slate-300 hover:text-white">
+                  <a href="/about" className="text-slate-300 hover:text-white">
                     Software Development
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-slate-300 hover:text-white">
+                  <a href="/about" className="text-slate-300 hover:text-white">
                     Website Development
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-slate-300 hover:text-white">
+                  <a href="/about" className="text-slate-300 hover:text-white">
                     Digital Marketing
                   </a>
                 </li>
@@ -163,7 +262,7 @@ const Layout = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="text-slate-300 hover:text-white">
+                  <a href="/" className="text-slate-300 hover:text-white">
                     IT Training
                   </a>
                 </li>
